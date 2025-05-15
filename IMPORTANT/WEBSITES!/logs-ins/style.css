@@ -1,0 +1,503 @@
+/* --- START OF FILE style.css --- */
+
+/* Basic Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+/* --- CSS Variables: Base (Applied unless overridden) --- */
+:root {
+    --font-family: 'Inter', sans-serif;
+    
+    /* Default Palette (Soft Blues/Greys) */
+    --primary-color: #007aff;       /* Action Blue */
+    --primary-color-dark: #005bb5;
+    --secondary-color: #3c414e;     /* Dark Grey/Blue for text */
+    --accent-color: #ffffff;        /* White */
+    --background-start: #f0f4f8;    /* Light cool grey */
+    --background-end: #ffffff;      /* White */
+    --form-background: #ffffff;
+    --text-color: #3c414e;
+    --text-muted-color: #6c757d;    /* Softer grey */
+    --label-color: #495057;
+    --input-border-color: #ced4da;
+    --input-focus-border-color: var(--primary-color);
+    --input-background: #ffffff;
+    --input-placeholder-color: #adb5bd;
+    --link-color: var(--primary-color);
+    --link-hover-color: var(--primary-color-dark);
+    --link-subtle-color: var(--text-muted-color);
+    --link-subtle-hover-color: var(--secondary-color);
+    --button-text-color: var(--accent-color);
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --shadow-color: rgba(60, 65, 78, 0.1); /* Subtle shadow */
+    --shadow-hover-color: rgba(60, 65, 78, 0.15);
+    --icon-color: var(--text-muted-color);
+    --logo-color: var(--primary-color);
+
+    /* Sizes & Spacing */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --input-height: 44px;
+    --button-height: 44px;
+}
+
+/* --- Base Body & Background Structure --- */
+html { 
+    font-size: 16px; 
+    scroll-behavior: smooth; 
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+    position: relative; /* Needed for absolute background element */
+}
+
+/* This element holds the animated background */
+.background-animation {
+    position: fixed; /* Cover entire viewport */
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; /* Place behind all content */
+    overflow: hidden; /* Clip animations */
+    background-color: var(--background-start); /* Fallback color */
+}
+
+/* --- Animated Backgrounds --- */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Default Theme Background */
+body.theme-default-bg .background-animation {
+    background: linear-gradient(-45deg, #e0e7ff, #c7d2fe, #a5b4fc, #818cf8);
+    background-size: 400% 400%;
+    animation: gradient-shift 25s ease infinite;
+}
+
+/* Samsung Theme Background */
+body.theme-samsung-bg .background-animation {
+    background: linear-gradient(60deg, #0a2a5e, #0b4da1, #3f7fdb, #8bbfff);
+    background-size: 300% 300%;
+    animation: gradient-shift 20s ease infinite;
+}
+/* Optional: Add pseudo-element shapes for Samsung */
+body.theme-samsung-bg .background-animation::before,
+body.theme-samsung-bg .background-animation::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    animation: subtle-float 15s ease-in-out infinite;
+    will-change: transform; /* Performance hint */
+}
+body.theme-samsung-bg .background-animation::before {
+    width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s;
+}
+body.theme-samsung-bg .background-animation::after {
+    width: 200px; height: 200px; bottom: 15%; right: 10%; animation-delay: 2s;
+}
+
+/* Xiaomi Theme Background */
+body.theme-xiaomi-bg .background-animation {
+    /* Using stripes pattern overlaying a gradient */
+     background: 
+        repeating-linear-gradient(
+            -55deg,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 10px,
+            rgba(255, 255, 255, 0.03) 10px,
+            rgba(255, 255, 255, 0.03) 20px
+        ),
+        linear-gradient(135deg, #ff8a3c, #ff6900, #a14500);
+    background-size: 100% 100%; /* Gradient takes full size */
+     animation: gradient-shift 22s ease infinite; /* Animate underlying gradient */
+}
+
+/* Google Theme Background */
+body.theme-google-bg .background-animation {
+    background: linear-gradient(45deg, #e8f0fe, #d2e3fc, #adcffa, #8ab4f8);
+    background-size: 200% 200%;
+    animation: gradient-shift 18s ease infinite;
+}
+/* Optional: Add subtle geometric shapes for Google */
+body.theme-google-bg .background-animation::before {
+    content: '';
+    position: absolute;
+    width: 0; height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 260px solid rgba(66, 133, 244, 0.08); /* Google Blue */
+    bottom: 5%; right: 5%;
+    transform: rotate(-30deg);
+    animation: subtle-float 20s ease-in-out infinite 1s;
+    will-change: transform;
+}
+body.theme-google-bg .background-animation::after {
+     content: '';
+    position: absolute;
+    width: 180px; height: 180px;
+    background: rgba(234, 67, 53, 0.06); /* Google Red */
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Blob shape */
+    top: 10%; left: 10%;
+    animation: subtle-float 18s ease-in-out infinite reverse;
+     will-change: transform;
+}
+
+/* --- Theme Variable Overrides (Applied to elements) --- */
+body.theme-samsung {
+    --primary-color: #0b4da1; --primary-color-dark: #083a7a;
+    --secondary-color: #1d2d44; --input-border-color: #d1d9e6;
+    --text-color: #212529; --label-color: #495057;
+    --text-muted-color: #6c757d; --shadow-color: rgba(11, 77, 161, 0.08);
+    --shadow-hover-color: rgba(11, 77, 161, 0.12); --logo-color: var(--primary-color);
+}
+body.theme-xiaomi {
+    --primary-color: #ff6900; --primary-color-dark: #e05a00;
+    --secondary-color: #333333; --form-background: #ffffff;
+    --input-border-color: #e0e0e0; --text-color: #333;
+    --label-color: #555; --text-muted-color: #757575;
+    --shadow-color: rgba(255, 105, 0, 0.1); --shadow-hover-color: rgba(255, 105, 0, 0.15);
+    --logo-color: var(--primary-color);
+}
+body.theme-google {
+    --primary-color: #4285F4; --primary-color-dark: #1a73e8;
+    --secondary-color: #202124; --form-background: #ffffff;
+    --input-border-color: #dadce0; --text-color: #202124;
+    --label-color: #5f6368; --text-muted-color: #5f6368;
+    --shadow-color: rgba(66, 133, 244, 0.1); --shadow-hover-color: rgba(66, 133, 244, 0.15);
+    --logo-color: #EA4335;
+}
+
+
+/* --- Layout Structure --- */
+.page-wrapper {
+    width: 100%;
+    max-width: 960px;
+    padding: var(--spacing-lg);
+    position: relative; /* Context for theme switcher */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure wrapper allows vertical centering */
+}
+
+/* --- Login Form Container & Box --- */
+.form-container {
+    width: 100%;
+    max-width: 420px; /* Constrain form width */
+}
+
+.form-box {
+    background-color: var(--form-background);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 var(--spacing-sm) var(--spacing-lg) var(--shadow-color);
+    width: 100%;
+    transition: background-color 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    border: 1px solid color-mix(in srgb, var(--input-border-color) 50%, transparent);
+    position: relative;
+    z-index: 1; /* Above background */
+}
+.form-box:hover {
+     box-shadow: 0 var(--spacing-md) var(--spacing-xl) var(--shadow-hover-color);
+     transform: translateY(-2px); /* Subtle lift */
+}
+
+.form-header { text-align: center; margin-bottom: var(--spacing-lg); }
+.logo-placeholder { font-size: 2.5rem; color: var(--logo-color); margin-bottom: var(--spacing-md); transition: color 0.4s ease; }
+.logo-placeholder i { display: block; }
+h1 { font-size: 1.75rem; color: var(--secondary-color); margin-bottom: var(--spacing-sm); font-weight: 600; transition: color 0.4s ease; }
+.subtitle { color: var(--text-muted-color); font-size: 0.95rem; margin-bottom: 0; transition: color 0.4s ease; }
+
+/* --- Form Elements --- */
+.input-group { margin-bottom: var(--spacing-md); position: relative; }
+.input-group label { display: block; margin-bottom: var(--spacing-sm); color: var(--label-color); font-weight: 500; font-size: 0.875rem; transition: color 0.4s ease; }
+.input-group label .icon { margin-right: var(--spacing-sm); color: var(--icon-color); width: 16px; text-align: center; transition: color 0.4s ease; }
+.input-group input[type="text"], .input-group input[type="email"], .input-group input[type="password"], .input-group input[type="date"] { width: 100%; height: var(--input-height); padding: 0 var(--spacing-md); border: 1px solid var(--input-border-color); border-radius: var(--border-radius-sm); font-size: 0.95rem; background-color: var(--input-background); color: var(--text-color); transition: border-color 0.3s ease, background-color 0.4s ease, color 0.4s ease, box-shadow 0.3s ease; }
+.input-group input::placeholder { color: var(--input-placeholder-color); opacity: 1; }
+.input-group input:focus { outline: none; border-color: var(--input-focus-border-color); box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus-border-color) 15%, transparent); }
+.options { text-align: right; margin-bottom: var(--spacing-lg); margin-top: -var(--spacing-sm); }
+.link-subtle { color: var(--link-subtle-color); font-size: 0.875rem; text-decoration: none; transition: color 0.3s ease; }
+.link-subtle:hover { color: var(--link-subtle-hover-color); text-decoration: underline; }
+.alternate-action { text-align: center; margin-top: var(--spacing-lg); font-size: 0.9rem; color: var(--text-muted-color); }
+.link-emphasis { color: var(--link-color); font-weight: 500; text-decoration: none; transition: color 0.3s ease; }
+.link-emphasis:hover { color: var(--link-hover-color); text-decoration: underline; }
+.btn-submit { width: 100%; height: var(--button-height); padding: 0 var(--spacing-lg); background: var(--primary-color); color: var(--button-text-color); border: none; border-radius: var(--border-radius-sm); font-size: 1rem; font-weight: 500; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; gap: var(--spacing-sm); transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.btn-submit:hover { background: var(--primary-color-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+.btn-submit:active { transform: scale(0.98); box-shadow: none; }
+.btn-submit i { font-size: 0.9em; }
+
+/* --- Theme Switcher (Top Right, Transparent) --- */
+#theme-switcher {
+    position: fixed; /* Changed from absolute to fixed */
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: 100;
+}
+
+#theme-trigger {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: var(--accent-color); /* White icon assumed best contrast */
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+#theme-trigger:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: scale(1.05);
+}
+#theme-trigger i {
+    font-size: 0.95rem;
+}
+
+#theme-menu {
+    position: absolute;
+    top: calc(100% + var(--spacing-sm));
+    right: 0;
+    background-color: var(--form-background);
+    border: 1px solid color-mix(in srgb, var(--input-border-color) 70%, transparent);
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 6px 15px var(--shadow-color);
+    min-width: 180px;
+    overflow: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s step-end;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 99;
+}
+#theme-menu.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s step-start;
+}
+#theme-menu button { display: flex; align-items: center; gap: var(--spacing-sm); width: 100%; padding: var(--spacing-sm) var(--spacing-md); border: none; background: none; text-align: left; cursor: pointer; font-size: 0.9rem; color: var(--text-color); transition: background-color 0.2s ease, color 0.2s ease; }
+#theme-menu button i { width: 16px; text-align: center; color: var(--icon-color); transition: color 0.2s ease; }
+#theme-menu button:hover { background-color: color-mix(in srgb, var(--primary-color) 10%, transparent); color: var(--primary-color); }
+#theme-menu button:hover i { color: var(--primary-color); }
+
+/* --- Fake Ad Container --- */
+.fake-ad-container {
+    width: 100%;
+    max-width: 420px; /* Match form width */
+    margin: var(--spacing-xl) auto 0; /* Center below form */
+    padding: var(--spacing-md);
+    background-color: color-mix(in srgb, var(--form-background) 85%, transparent);
+    border-radius: var(--border-radius-sm);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted-color);
+    border: 1px dashed var(--input-border-color);
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.4s ease, border-color 0.3s ease;
+}
+.fake-ad-container h4 { font-size: 0.95rem; color: var(--text-color); margin-bottom: var(--spacing-xs); font-weight: 500; }
+.fake-ad-container p { margin-bottom: var(--spacing-sm); }
+.fake-ad-container .ad-link { font-weight: 500; color: var(--link-color); text-decoration: none; }
+.fake-ad-container .ad-link:hover { color: var(--link-hover-color); text-decoration: underline; }
+.fake-ad-container .ad-logo { max-height: 30px; margin-bottom: var(--spacing-sm); opacity: 0.8; vertical-align: middle; }
+.ad-placeholder { font-style: italic; }
+
+/* --- Loading Overlay --- */
+#loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; color: var(--secondary-color); text-align: center; padding: var(--spacing-lg); opacity: 0; transition: opacity 0.5s ease-in-out, backdrop-filter 0.5s ease-in-out; }
+#loading-overlay.visible { display: flex; opacity: 1; }
+.spinner { border: 5px solid color-mix(in srgb, var(--primary-color) 20%, transparent); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin-bottom: var(--spacing-lg); }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+#loading-text { font-size: 1.1rem; font-weight: 500; margin-bottom: var(--spacing-md); }
+#success-message { font-size: 1.2rem; font-weight: 600; color: var(--success-color); }
+
+/* --- 404 Error Page Specific Styles --- */
+.error-page-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    min-height: 100vh;
+}
+.error-container {
+    padding: var(--spacing-xl);
+    background: var(--form-background);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    max-width: 500px;
+    width: 90%; /* Ensure some padding on small screens */
+}
+.error-code { font-size: 6rem; font-weight: 600; color: var(--primary-color); line-height: 1; margin-bottom: var(--spacing-sm); }
+.error-container h1 { font-size: 2rem; color: var(--secondary-color); margin-bottom: var(--spacing-md); }
+.error-container p { color: var(--text-muted-color); margin-bottom: var(--spacing-sm); }
+.redirect-message { font-style: italic; margin-bottom: var(--spacing-lg); }
+.spinner-redirect { display: inline-block; border: 4px solid color-mix(in srgb, var(--primary-color) 20%, transparent); border-top: 4px solid var(--primary-color); border-radius: 50%; width: 25px; height: 25px; animation: spin 1s linear infinite; }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    html { font-size: 15px; }
+    .page-wrapper { padding: var(--spacing-md); }
+    .form-box { padding: var(--spacing-lg); }
+    h1 { font-size: 1.6rem; }
+    .fake-ad-container { padding: var(--spacing-sm); margin-top: var(--spacing-lg); }
+    #theme-switcher { top: var(--spacing-md); right: var(--spacing-md); }
+    #theme-trigger { width: 36px; height: 36px; }
+    #loading-text { font-size: 1rem; }
+    #success-message { font-size: 1.1rem; }
+}
+
+@media (max-width: 480px) {
+    html { font-size: 14px; }
+    .page-wrapper { padding: 0; /* Remove padding, let form box handle */ }
+    .form-container { max-width: none; }
+    .form-box {
+        min-height: 100vh; /* Ensure full height */
+        border-radius: 0; box-shadow: none; border: none;
+        padding: var(--spacing-xl) var(--spacing-lg);
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .fake-ad-container {
+        max-width: none; /* Full width */
+        border-radius: 0; margin: var(--spacing-lg) 0 0 0;
+        border-left: none; border-right: none;
+    }
+    #theme-switcher { top: var(--spacing-sm); right: var(--spacing-sm); }
+    #theme-trigger { opacity: 0.6; } /* Slightly less transparent */
+     /* Ensure body layout works well on mobile when form is full screen */
+    body:not(.error-page-body) { /* Apply only to login page body */
+        display: block; /* Override flex centering */
+        background: var(--form-background); /* Match form background */
+    }
+     .background-animation { display: none; } /* Hide complex BG on smallest screens */
+}
+
+@keyframes apple-aurora {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+body.theme-apple-bg .background-animation {
+    /* Subtle, soft, slightly shifting aurora-like gradient */
+    background: radial-gradient(circle at 10% 20%, hsla(210, 50%, 95%, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, hsla(280, 40%, 92%, 0.7) 0%, transparent 50%),
+                radial-gradient(circle at 30% 80%, hsla(190, 45%, 93%, 0.75) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, hsla(30, 50%, 94%, 0.6) 0%, transparent 50%),
+                #f9f9f9; /* Base very light grey/off-white */
+    background-size: 300% 300%; /* Make gradients larger than viewport */
+    animation: apple-aurora 45s linear infinite;
+    will-change: background-position;
+}
+
+
+/* --- Theme Variable Overrides --- */
+/* ... (Keep Samsung, Xiaomi, Google theme variable overrides) ... */
+
+/* Apple iCloud Theme Variables */
+body.theme-apple {
+    --font-family: 'Inter', sans-serif; /* Sticking with Inter for consistency */
+    --primary-color: #007aff;       /* Apple's standard blue */
+    --primary-color-dark: #005ecb;
+    --secondary-color: #1d1d1f;     /* Apple's dark grey/black for text */
+    /* Apple backgrounds are often very light, almost white, or very subtle gradients */
+    --form-background: #ffffff;
+    --text-color: #1d1d1f;
+    --text-muted-color: #6e6e73;    /* Apple's secondary text grey */
+    --label-color: #3a3a3c;         /* A slightly darker grey for labels */
+    --input-border-color: #d2d2d7;  /* Apple's input border color */
+    --input-focus-border-color: var(--primary-color);
+    --input-background: #f5f5f7;    /* Slightly off-white input background */
+    --input-placeholder-color: #86868b;
+    --link-color: var(--primary-color);
+    --link-hover-color: #006adc;
+    --shadow-color: rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+    --shadow-hover-color: rgba(0, 0, 0, 0.08);
+    --icon-color: var(--text-muted-color);
+    --logo-color: #333333;          /* Apple logo is often black or dark grey */
+    --button-text-color: #ffffff;   /* White text on blue button */
+    --border-radius-sm: 6px;        /* Apple uses slightly more rounded corners */
+    --border-radius-md: 10px;
+}
+
+
+body.theme-apple .form-box {
+    padding: calc(var(--spacing-xl) + var(--spacing-xs)) calc(var(--spacing-xl) + var(--spacing-xs));
+    /* Apple often uses more prominent rounded corners */
+    border-radius: var(--border-radius-md); 
+}
+
+body.theme-apple .logo-placeholder {
+    font-size: 3rem; /* Apple logo can be a bit more prominent */
+}
+
+body.theme-apple .input-group input[type="text"],
+body.theme-apple .input-group input[type="email"],
+body.theme-apple .input-group input[type="password"],
+body.theme-apple .input-group input[type="date"] {
+    background-color: var(--input-background);
+    border-radius: var(--border-radius-sm);
+    height: calc(var(--input-height) + 4px); /* Slightly taller inputs */
+}
+body.theme-apple .input-group input:focus {
+     box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus-border-color) 20%, transparent); /* More standard blue focus ring */
+}
+body.theme-apple .btn-submit {
+    font-weight: 500; /* Apple buttons often have medium weight */
+    border-radius: var(--border-radius-sm);
+    height: calc(var(--button-height) + 2px);
+}
+body.theme-apple #theme-menu button:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 10%, var(--form-background));
+    color: var(--primary-color);
+}
+body.theme-apple #theme-menu button:hover i {
+    color: var(--primary-color);
+}
+/* Theme trigger on Apple theme should stand out against light background */
+body.theme-apple #theme-trigger {
+    background-color: rgba(0, 0, 0, 0.05); /* Slightly darker for visibility */
+    color: var(--secondary-color); /* Darker icon */
+}
+body.theme-apple #theme-trigger:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Fake Ad Container (Styles mostly remain) --- */
+/* ... (Keep existing styles for .fake-ad-container) ... */
+.fake-ad-container .ad-logo.apple-ad-logo {
+    max-height: 25px; /* Apple logo is often smaller and cleaner in ads */
+    filter: invert(0.1); /* Make it dark grey if original is black for light BG */
+}
+
+/* --- END OF FILE style.css --- */

