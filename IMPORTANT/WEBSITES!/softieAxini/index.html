@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftieAxin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Add your favicon link here -->
+    <link rel="icon" type="image/png" href="https://ik.imagekit.io/9llyyueko/STATIC%20IMAGES/icon256.png?updatedAt=1745897134054"> 
+</head>
+<body> <!-- Theme class will be added by JS -->
+
+    <div class="media-player-container">
+        <div class="header-controls">
+            <h1>RAHHHHHHHHHH</h1>
+            <button id="cacheAllButton" title="Cache all tracks for offline playback">📥 Cache All</button>
+        </div>
+        <div id="categoriesContainer">
+            <!-- Categories and tracks will be populated by JavaScript -->
+        </div>
+        <!-- Now Playing Bar is removed from here -->
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <div class="black-screen-overlay" id="blackScreenOverlay">
+        <!-- Player controls inside the black screen -->
+        <div class="black-screen-player-controls" id="blackScreenPlayerControls">
+            <div class="bs-track-info">
+                <span class="bs-current-track-title" id="bsCurrentTrackTitle">Track Title</span>
+            </div>
+            <div class="bs-playback-controls">
+                <button id="bsRestartButton" class="bs-control-button" title="Restart">↻</button> <!-- Restart symbol: ↺ -->
+                <button id="bsPlayPauseButton" class="bs-control-button" title="Play">▶</button> <!-- Play symbol: ▶ -->
+            </div>
+            <div class="bs-time-progress-container">
+                <span class="bs-current-time" id="bsCurrentTime">0:00</span>
+                <div class="bs-progress-bar-wrapper" id="bsProgressBarWrapper">
+                    <div class="bs-progress-bar" id="bsProgressBar"></div>
+                </div>
+                <span class="bs-total-duration" id="bsTotalDuration">0:00</span>
+            </div>
+        </div>
+        <p class="bs-dismiss-instruction">Double tap screen to return</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
